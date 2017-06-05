@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Change-Score vs. ANCOVA Methods</title>
+<script src="biaslookup.js"></script>
+
+<style>
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+th, td {
+	padding: 10px;
+	text-align: center;
+}
+.lowBias {
+	background-color: #85e085;
+}
+.largeBias {
+	color: #ff0000;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Comparing Change-Score And ANCOVA Methods of Analyzing Data</h1>
+<p>When analyzing educational data, statisticians often find associations between the initial status of their subjects and the subjects' growth after an experiment. These associations incur a bias which can obfuscate the true improvement of a subject. The two methods typically used in this sort of analysis, Change-Score and ANCOVA (also known as regressor-variable), incur different biases. Statisticians have debated for decades which method is generally better suited to the task&mdash;in other words, which method generally incurs a smaller bias.</p>
+
+<p>In their 2016 article "Accounting for the Relationship Between Initial Status and Growth in Regression Models," Sean Kelly and Feifei Ye argue that the appropriate method depends on multiple factors, including measurement error and intrinsic associations between initial status and growth. They simulated hundreds of possible scenarios and provided several tables showing what the bias would be in each case, for both methods of analysis. These used particular statistics: Cohen's d, the sample size (N), any intrinsic association between initial status and growth (&delta;), and the reliability of WHAT? (r). Given this data, one could find the corresponding bias, which is considered significantly large if it is greater than 0.5. [CAVEATS?]</p>
+
+<!--Cohen's d reflects the level of mean difference in initial status between groups. It is calculated as (mean 2 - mean 1)/(pooled standard deviation).-->
+
+<p>We have converted these tables into a program that will take input for the statistics above and return a table of the bias discovered for that scenario for each method. If the reliability is unknown, it will return a table with the biases for every reliability in the list. The bias with the smaller absolute value will be highlighted in green, and any biases with an absolute value greater than 0.5 will be printed in red text.</p>
+
+<p>You can read Kelly and Ye's article <a href="http://dx.doi.org/10.1080/00220973.2016.1160357">here</a>.</p>
+
+<form id="statistics" method="get">
+	Cohen's D:<br>
+	<input type="radio" name="Cd" id="0" value="0" checked="checked"> 0<br>
+	<input type="radio" name="Cd" id="0.05" value="0.05"> 0.05<br>
+	<input type="radio" name="Cd" id="0.1" value="0.1"> 0.1<br>
+	<input type="radio" name="Cd" id="0.2" value="0.2"> 0.2<br>
+	<br>
+	Sample size (n):<br>
+	<input type="radio" name="N" id="50" value="50" checked="checked"> 50<br>
+	<input type="radio" name="N" id="500" value="500"> 500<br>
+	<br>
+	Intrinsic association between initial status and growth (&delta;):<br>
+	<input type="radio" name="delta" id="-0.8" value="-0.8" checked="checked"> -0.8<br>
+	<input type="radio" name="delta" id="-0.5" value="-0.5"> -0.5<br>
+	<input type="radio" name="delta" id="-0.2" value="-0.2"> -0.2<br>
+	<input type="radio" name="delta" id="0" value="0"> 0<br>
+	<input type="radio" name="delta" id="0.2" value="0.2"> 0.2<br>
+	<input type="radio" name="delta" id="0.5" value="0.5"> 0.5<br>
+	<input type="radio" name="delta" id="0.8" value="0.8"> 0.8<br>
+	<br>
+	Reliability (r):<br>
+	<input type="radio" name="r" id="unknown" value="unknown" checked="checked"> Unknown<br>
+	<input type="radio" name="r" id="1" value="1"> 1<br>
+	<input type="radio" name="r" id="0.95" value="0.95"> 0.95<br>
+	<input type="radio" name="r" id="0.9" value="0.9"> 0.9<br>
+	<input type="radio" name="r" id="0.8" value="0.8"> 0.8<br>
+	<input type="radio" name="r" id="0.7" value="0.7"> 0.7<br>
+	<input type="radio" name="r" id="0.6" value="0.6"> 0.6<br>
+	<input type="radio" name="r" id="0.5" value="0.5"> 0.5<br>
+	<br>
+</form>
+<input type="button" onclick="lookup();" name="ok" value="Look Up Bias"	/><br>
+<br>
+<div id="biases"/>
+
+</body>
+
+</html>
