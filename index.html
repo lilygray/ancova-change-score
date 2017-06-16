@@ -1,3 +1,17 @@
+<!--   Copyright 2017 Lily Gray
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.-->
+
 <!DOCTYPE html>
 
 <html>
@@ -28,11 +42,13 @@ th, td {
 <body>
 
 <h1>Comparing Change-Score And ANCOVA Methods of Analyzing Data</h1>
+
 <p>When analyzing educational data, statisticians often find associations between the initial status of their subjects and the subjects' growth after an experiment. These associations incur a bias which can obfuscate the true improvement of a subject. The two methods typically used in this sort of analysis, Change-Score and ANCOVA (also known as regressor-variable), incur different biases. Statisticians have debated for decades which method is generally better suited to the task&mdash;in other words, which method generally incurs a smaller bias.</p>
 
-<p>In their 2016 article "Accounting for the Relationship Between Initial Status and Growth in Regression Models," Sean Kelly and Feifei Ye argue that the appropriate method depends on multiple factors, including measurement error and intrinsic associations between initial status and growth. They simulated hundreds of possible scenarios and provided several tables showing what the bias would be in each case, for both methods of analysis. These used particular statistics: Cohen's d, the sample size (N), any intrinsic association between initial status and growth (&delta;), and the reliability of WHAT? (r). Given this data, one could find the corresponding bias, which is considered significantly large if it is greater than 0.5. [CAVEATS?]</p>
+<p>In their 2016 article "Accounting for the Relationship Between Initial Status and Growth in Regression Models," Sean Kelly and Feifei Ye argue that the appropriate method depends on multiple factors, including measurement error and any intrinsic associations between initial status and growth. They simulated hundreds of possible scenarios and provided several tables showing what the bias would be in each case, for both methods of analysis. These used particular statistics: Cohen's d (for the group difference in initial status), the sample size (N), any intrinsic association between initial status and growth (&delta;), and the reliability of the achievement scores at Time 1 and Time 2<sup><a href="#fn1" id="ref1">*</a></sup> (r). Given this data, one could find the corresponding bias, which is considered significantly large if it is greater than 0.5.</p>
 
-<!--Cohen's d reflects the level of mean difference in initial status between groups. It is calculated as (mean 2 - mean 1)/(pooled standard deviation).-->
+<!--Create a way to refer people to explanations of and methods of calculating those statistics.
+Cohen's d reflects the level of mean difference in initial status between groups. It is calculated as (mean 2 - mean 1)/(pooled standard deviation).-->
 
 <p>We have converted these tables into a program that will take input for the statistics above and return a table of the bias discovered for that scenario for each method. If the reliability is unknown, it will return a table with the biases for every reliability in the list. The bias with the smaller absolute value will be highlighted in green, and any biases with an absolute value greater than 0.5 will be printed in red text.</p>
 
@@ -49,7 +65,7 @@ th, td {
 	<input type="radio" name="N" id="50" value="50" checked="checked"> 50<br>
 	<input type="radio" name="N" id="500" value="500"> 500<br>
 	<br>
-	Intrinsic association between initial status and growth (&delta;):<br>
+	Estimated intrinsic association between initial status and growth (&delta;):<br>
 	<input type="radio" name="delta" id="-0.8" value="-0.8" checked="checked"> -0.8<br>
 	<input type="radio" name="delta" id="-0.5" value="-0.5"> -0.5<br>
 	<input type="radio" name="delta" id="-0.2" value="-0.2"> -0.2<br>
@@ -58,7 +74,7 @@ th, td {
 	<input type="radio" name="delta" id="0.5" value="0.5"> 0.5<br>
 	<input type="radio" name="delta" id="0.8" value="0.8"> 0.8<br>
 	<br>
-	Reliability (r):<br>
+	Estimated reliability (r):<br>
 	<input type="radio" name="r" id="unknown" value="unknown" checked="checked"> Unknown<br>
 	<input type="radio" name="r" id="1" value="1"> 1<br>
 	<input type="radio" name="r" id="0.95" value="0.95"> 0.95<br>
@@ -71,8 +87,11 @@ th, td {
 </form>
 <input type="button" onclick="lookup();" name="ok" value="Look Up Bias"	/><br>
 <br>
-<div id="biases"/>
+<div id="biases"></div>
+<hr/>
+<sup id="fn1">* This assumes a stable reliability. In practice, it is certainly possible for the reliability to be different at each time point, but the authors did not feel this warranted simulations, as there is no rule of thumb as to whether it would generally go up or down. Due to fatigue, the second might be lower, but in education, the spring scores are often the high-stakes ones, so that rule doesn't apply in much ed policy research. Yet there is an assumption there the reader should be aware of.<a href="#ref1" title="Jump back to footnote 1 in the text.">↩</a></sup>
 
 </body>
 
 </html>
+
